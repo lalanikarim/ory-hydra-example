@@ -6,10 +6,11 @@ Overview
 
 This repo contains two Laravel projects:  
 
-1. server-app: This project contains the logic for Login, Consent, and Logout UIs for use with the Ory Hydra server.
-2. client-app: This project contains a sample OAuth2 client application to test the authentication.
+1. `server-app`: This project contains the logic for Login, Consent, and Logout UIs for use with the Ory Hydra server.
+2. `client-app`: This project contains a sample OAuth2 client application to test the authentication.
 
-Besides these, you also need the `ory hydra` from `https://github.com/ory/hydra.git`
+Besides these, you also need the `ory hydra` from Ory Hydra's [Github](https://github.com/ory/hydra.git)  
+See [Ory Hydra 5-min tutorial](https://www.ory.sh/hydra/docs/5min-tutorial) for reference.
 
 In order to test this, you must:
 1. Start the `server-app` to listen on port `8000`
@@ -36,5 +37,5 @@ In order to test this, you must:
    `OAUTH2_RESOURCE_URL=http://127.0.0.1:8000/resource` #doesn't exist yet. placeholder for future  
    `OAUTH2_LOGOUT_URL=http://127.0.0.1:4444/oauth2/sessions/logout`  
 5. Start the `client-app` to listen on port `8001`
-6. Start the browser and go to `http://127.0.0.1:8001/login`  
+6. Start the browser and go to [http://127.0.0.1:8001/login](http://127.0.0.1:8001/login) 
    Enter same value in username and password fields to simulate a successful login attempt. 
