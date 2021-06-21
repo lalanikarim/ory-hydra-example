@@ -27,14 +27,14 @@ In order to test this, you must:
    requested scopes: openid, offline
    ```
    `http://127.0.0.1:4445/` is the `ory hydra` admin API endpoint.
-   Now edit the `client-app` .env file and add the following environtment variable values:
-   `OAUTH2_CLIENT_ID=<client id>`
-   `OAUTH2_CLIENT_SECRET=<client secret>`
+   Now edit the `client-app` .env file and add the following environtment variable values:  
+   `OAUTH2_CLIENT_ID=<client id>`  
+   `OAUTH2_CLIENT_SECRET=<client secret>`  
    `OAUTH2_ISSUER_URL=http://127.0.0.1:4444` #ory hydra public api endpoint
-   `OAUTH2_AUTHORIZE_URL=http://127.0.0.1:4444/oauth2/auth`
-   `OAUTH2_ACCESS_TOKEN_URL=http://127.0.0.1:4444/oauth2/token`
-   `OAUTH2_RESOURCE_URL=http://127.0.0.1:8000/resource` #doesn't exist yet. placeholder for future
-   `OAUTH2_LOGOUT_URL=http://127.0.0.1:4444/oauth2/sessions/logout`
+   `OAUTH2_AUTHORIZE_URL=http://127.0.0.1:4444/oauth2/auth`  
+   `OAUTH2_ACCESS_TOKEN_URL=http://127.0.0.1:4444/oauth2/token`  
+   `OAUTH2_RESOURCE_URL=http://127.0.0.1:8000/resource` #doesn't exist yet. placeholder for future  
+   `OAUTH2_LOGOUT_URL=http://127.0.0.1:4444/oauth2/sessions/logout`  
 5. Start the `client-app` to listen on port `8001`
 6. Start the browser and go to `http://127.0.0.1:8001/login`  
    Enter same value in username and password fields to simulate a successful login attempt. 
