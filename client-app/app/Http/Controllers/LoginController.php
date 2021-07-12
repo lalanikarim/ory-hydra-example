@@ -80,7 +80,13 @@ class LoginController extends Controller
     $idToken = $this->oidc->getIdToken();
     $refreshToken = $this->oidc->getRefreshToken();
     $givenName = $this->oidc->requestUserInfo('givenname');
-    $response = 'Given Name:'. $givenName . '<br>' . 'Access Token: ' . $accessToken . '<br>' . 'Id Token:' . $idToken . '<br>'. 'Refresh Token: ' . $refreshToken . '<br>' . 'Expires in: ' . '<br>' . '<a href="/logout">Logout</a>';
+    $subject = $this->oidc->requestUserInfo('sub');
+    $response = 'Given Name: ' . $givenName . '<br>' . 
+      'Subject: ' . $subject . '<br>' .
+      'Access Token: ' . $accessToken . '<br>' . 
+      'Id Token:' . $idToken . '<br>'. 
+      'Refresh Token: ' . $refreshToken . '<br>' . 
+      'Expires in: ' . '<br>' . '<a href="/logout">Logout</a>';
 
     request()->session()->put('access_token',$accessToken);
     request()->session()->put('id_token',$idToken);
@@ -91,22 +97,46 @@ class LoginController extends Controller
 
   public function logout()
   {
-    $accessToken = request()->session()->get('access_token');
-    request()->session()->flush();
-    $this->oidc->signOut($accessToken, 'http://127.0.0.1:8001/');
-    //return redirect(env('OAUTH2_LOGOUT_URL'));
+    if(request()->session()->has('access_token'))
+    {
+      $accessToken = request()->session()->get('access_token');
+      $idToken = request()->session()->get('id_token');
+      $this->oidc->setAccessToken($accessToken);
+
+      $this->oidc->signOut($idToken, 'http://127.0.0.1:8001/');
+    }
+    return redirect("/");
   }
 
   public function index()
   {
-    $accessToken = request()->session()->get('access_token');
-    $idToken = request()->session()->get('id_token');
-    $refreshToken = request()->session()->get('refresh_token');
-  
+    #$this->oidc->authenticate();
+    if(request()->query->has('state') && request()->query('state') == '') {
+      request()->session()->flush();
+    }
+    if(request()->session()->has('access_token'))
+    {
+      $accessToken = request()->session()->get('access_token');
+      $idToken = request()->session()->get('id_token');
+      $refreshToken = request()->session()->get('refresh_token');
+    
+      $this->oidc->setAccessToken($accessToken);
+      
 
-    $givenName = $this->oidc->requestUserInfo('givenname');
-    $response = 'Given Name: ' . $givenName . '<br>' . 'Access Token: ' . $accessToken . '<br>' . 'Id Token:' . $idToken . '<br>'. 'Refresh Token: ' . $refreshToken . '<br>' . 'Expires in: ' . '<br>' . '<a href="/logout">Logout</a>';
-
-    return $response;
+      $subject = $this->oidc->requestUserInfo('sub');
+      $givenName = $this->oidc->requestUserInfo('givenname');
+      $response = 'Given Name: ' . $givenName . '<br>' . 
+        'Subject: ' . $subject . '<br>' .
+        'Access Token: ' . $accessToken . '<br>' . 
+        'Id Token:' . $idToken . '<br>'. 
+        'Refresh Token: ' . $refreshToken . '<br>' . 
+        'Expires in: ' . '<br>' . '<a href="/logout">Logout</a>';
+      
+      return $response;
+    }
+    else
+    {
+      return redirect('/login');
+    }
   }
 }
