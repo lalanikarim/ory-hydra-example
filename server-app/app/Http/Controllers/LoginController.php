@@ -6,7 +6,6 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
 use Ory\Hydra\Client\Configuration;
-use Ory\Hydra\Client\Model\ConsentRequestSession;
 use \Ory\Hydra\Client\Api\AdminApi;
 
 class LoginController extends Controller
@@ -17,7 +16,7 @@ class LoginController extends Controller
   function __construct()
   {
     $this->config = new Configuration();
-    $this->config->setHost('http://127.0.0.1:4445');
+    $this->config->setHost(env('ORY_HYDRA_ADMIN','http://127.0.0.1:4445'));
     $this->admin = new AdminApi(null,$this->config);
   }
 
